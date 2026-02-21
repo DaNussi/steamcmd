@@ -1,8 +1,8 @@
 FROM archlinux/archlinux:latest
 
 
-RUN printf "[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
-RUN pacman -Syu --needed --noconfirm git base-devel lib32-sdl2-compat lib32-dbus lib32-gcc-libs glibc
+RUN printf "[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf \
+    && pacman -Syu --needed --noconfirm git base-devel lib32-sdl2-compat lib32-dbus lib32-gcc-libs glibc
 
 ARG user=ark
 RUN groupadd -g 1000 $user \
@@ -15,8 +15,8 @@ RUN git clone https://aur.archlinux.org/steamcmd.git \
     && cd steamcmd \
     && makepkg -si --needed --noconfirm \
     && cd ~ \
-    && rm -rf .cache steamcmd
-
-RUN steamcmd +quit
+    && rm -rf .cache steamcmd \
+    && sudo pacman -RS --noconfirm base-devel \
+    && steamcmd +quit
 
 CMD ["/usr/bin/steamcmd"]
