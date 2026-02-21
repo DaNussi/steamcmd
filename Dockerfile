@@ -16,7 +16,7 @@ RUN git clone https://aur.archlinux.org/steamcmd.git \
     && makepkg -si --needed --noconfirm \
     && cd ~ \
     && rm -rf .cache steamcmd \
-    && sudo pacman -RS --noconfirm base-devel \
+    && sudo pacman -Rns --noconfirm base-devel \
     && steamcmd +quit
 
 CMD ["/usr/bin/steamcmd"]
